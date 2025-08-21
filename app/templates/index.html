@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Liquidity Farming Tracker</title>
+</head>
+
+<body>
+    <h1>Liquidity Farming Tracker</h1>
+    <form method="POST">
+        <label>Montant à investir ($):</label>
+        <input type="number" name="amount" step="0.01" required><br><br>
+
+        <label>Prix HYPE/BTC:</label>
+        <input type="number" name="price" step="0.0000001" required><br><br>
+
+        <label>Tick Range Min:</label>
+        <input type="number" name="tick_min" step="0.0000001" required><br><br>
+
+        <label>Tick Range Max:</label>
+        <input type="number" name="tick_max" step="0.0000001" required><br><br>
+
+        <button type="submit">Calculer</button>
+    </form>
+</body>
+
+</html>
