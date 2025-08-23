@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
 from app.services.calculator import calculate_custom_allocation
+from app.services.coingecko_api import get_price_usd
 
 
 main = Blueprint('main', __name__)
@@ -14,7 +15,11 @@ def index():
             # Get user inputs from form
             amount = float(request.form['amount'])
             price_hype_btc = float(request.form['price'])
-            price_btc_usd = float(request.form['price_btc_usd'])
+            # If BTC price not provided or invalid, fetch from CoinGecko
+            try:
+                price_btc_usd = float(request.form['price_btc_usd'])
+            except:
+                price_btc_usd = get_price_usd('bitcoin')
 
             # Get allocation splits
             allocation_btc_pct = float(request.form['allocation_btc'])
