@@ -95,15 +95,15 @@
         <h1>Liquidity Farming Tracker</h1>
 
         <form method="POST">
-            <label>Amount to invest (USD)</label>
+            <label>Amount to invest</label>
             <input type="number" name="amount" class="form-control" step="0.01" required
                 value="{{ request.form.amount or 10000 }}" placeholder="Enter amount">
 
-            <label>BTC/USD Price</label>
+            <label>BTC/USD</label>
             <input type="number" name="price_btc_usd" class="form-control" step="0.01"
                 value="{{ request.form.price_btc_usd or '' }}" placeholder="Enter BTC price">
 
-            <label>HYPE/USD Price</label>
+            <label>HYPE/USD</label>
             <input type="number" name="price_hype_usd" class="form-control" step="0.01"
                 value="{{ request.form.price_hype_usd or '' }}" placeholder="Enter HYPE price">
 
@@ -126,8 +126,8 @@
             {% else %}
             <h4>Allocation Results</h4>
             <ul class="list-unstyled">
-                <li><strong>BTC Price (USD):</strong> {{ result.price_btc_usd }}</li>
-                <li><strong>HYPE Price (USD):</strong> {{ result.price_hype_usd }}</li>
+                <li><strong>BTC Price:</strong> {{ result.price_btc_usd }}</li>
+                <li><strong>HYPE Price:</strong> {{ result.price_hype_usd }}</li>
                 <li><strong>Target Allocation:</strong> {{ result.btc_pct }}% BTC / {{ result.hype_pct }}% HYPE</li>
                 <li><strong>BTC Allocation:</strong> ${{ result.btc_usd }} → {{ result.btc_qty }} BTC</li>
                 <li><strong>HYPE Allocation:</strong> ${{ result.hype_usd }} → {{ result.hype_qty }} HYPE</li>

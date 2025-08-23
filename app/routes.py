@@ -12,14 +12,13 @@ def index():
 
     if request.method == 'POST':
         try:
-            # Get user inputs from form
+            # Get user input amount
             amount = float(request.form['amount'])
 
-            # Get BTC price (from form or cache/API)
+            # --- BTC PRICE (manual input or fallback to API/cache) ---
             try:
                 price_btc_usd = float(request.form['price_btc_usd'])
             except:
-                # Use cache if available
                 if 'price_btc_usd' in session and time.time() - session.get('btc_timestamp', 0) < 300:
                     price_btc_usd = session['price_btc_usd']
                 else:
@@ -27,21 +26,27 @@ def index():
                     session['price_btc_usd'] = price_btc_usd
                     session['btc_timestamp'] = time.time()
 
-            # Get HYPE/BTC price (from form or CoinGecko)
+            # --- HYPE PRICE (manual input or fallback to API/cache) ---
             try:
-
-                price_hype_usd = get_price_usd('hyperliquid')
+                price_hype_usd = float(request.form['price_hype_usd'])
             except:
-                # Fallback to CoinGecko if price not provided
-                price_hype_usd = get_price_usd('hyperliquid-hype')
+                if 'price_hype_usd' in session and time.time() - session.get('hype_timestamp', 0) < 300:
+                    price_hype_usd = session['price_hype_usd']
+                else:
+                    # Nom du token selon CoinGecko
+                    # ou 'hyperliquid-hype' si nécessaire
+                    price_hype_usd = get_price_usd('hyperliquid')
+                    session['price_hype_usd'] = price_hype_usd
+                    session['hype_timestamp'] = time.time()
 
+            # Compute HYPE/BTC price internally
             price_hype_btc = price_hype_usd / price_btc_usd
 
-            # Get allocation splits
+            # Allocation percentages
             allocation_btc_pct = float(request.form['allocation_btc'])
             allocation_hype_pct = float(request.form['allocation_hype'])
 
-            # Compute custom allocation
+            # Perform allocation calculation
             result = calculate_custom_allocation(
                 amount_total_usd=amount,
                 price_hype_btc=price_hype_btc,
@@ -49,6 +54,9 @@ def index():
                 allocation_btc_pct=allocation_btc_pct,
                 allocation_hype_pct=allocation_hype_pct
             )
+
+            # Add HYPE/USD price to result for display
+            result["price_hype_usd"] = round(price_hype_usd, 6)
 
         except Exception as e:
             result = {'error': str(e)}
