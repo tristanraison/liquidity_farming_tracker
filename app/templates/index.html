@@ -22,6 +22,21 @@
 
         <button type="submit">Calculer</button>
     </form>
+
+    {% if result %}
+    {% if result.error %}
+    <p style="color:red;">Error: {{ result.error }}</p>
+    {% else %}
+    <h2>Result</h2>
+    <ul>
+        <li>Token0 (BTC) ratio: {{ result.token0_ratio }}%</li>
+        <li>Token1 (HYPE) ratio: {{ result.token1_ratio }}%</li>
+        <li>Token0 (BTC) amount: ${{ result.token0_amount }}</li>
+        <li>Token1 (HYPE) amount: ${{ result.token1_amount }}</li>
+    </ul>
+    {% endif %}
+    {% endif %}
+
 </body>
 
 </html>
