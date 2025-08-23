@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Liquidity Farming Tracker</title>
-    <!-- Bootstrap 5 + dark mode styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             background-color: #121212;
-            color: #f0f0f0;
+            color: #e0e0e0;
+            font-family: "Segoe UI", Roboto, sans-serif;
         }
 
         .container {
@@ -17,59 +18,104 @@
             margin-top: 50px;
         }
 
+        h1 {
+            font-weight: 500;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
         label {
             margin-top: 15px;
+            font-weight: 500;
         }
 
         input {
-            background-color: #1e1e1e;
-            color: #fff;
+            background-color: #2a2a2a !important;
+            color: #ffffff !important;
             border: 1px solid #555;
+            padding: 8px 10px;
+            caret-color: white;
+            /* Curseur blanc */
+        }
+
+        input:focus {
+            background-color: #2a2a2a !important;
+            color: #ffffff !important;
+            border-color: #777;
+            box-shadow: none !important;
+        }
+
+        input::placeholder {
+            color: #b0b0b0 !important;
+            opacity: 1;
+        }
+
+        input:focus::placeholder {
+            color: #999 !important;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 1000px #2a2a2a inset !important;
+            -webkit-text-fill-color: #ffffff !important;
         }
 
         .card {
             background-color: #1e1e1e;
-            color: #fff;
+            color: #e0e0e0;
             border: 1px solid #444;
         }
 
-        .btn-primary {
-            background-color: #00bcd4;
+        .btn-submit {
+            background-color: #444;
+            color: #e0e0e0;
             border: none;
+            margin-top: 30px;
+            padding: 12px;
         }
 
-        .btn-primary:hover {
-            background-color: #0097a7;
+        .btn-submit:hover {
+            background-color: #666;
+            color: #fff;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1 class="mb-4 text-center">Liquidity Farming Tracker</h1>
+        <h1>Liquidity Farming Tracker</h1>
 
         <form method="POST">
             <label>Amount to invest (USD)</label>
             <input type="number" name="amount" class="form-control" step="0.01" required
-                value="{{ request.form.amount or 10000 }}">
-
-            <label>HYPE/USD Price</label>
-            <input type="number" name="price" class="form-control" step="0.0000001"
-                value="{{ request.form.price or '' }}">
+                value="{{ request.form.amount or 10000 }}" placeholder="Enter amount">
 
             <label>BTC/USD Price</label>
             <input type="number" name="price_btc_usd" class="form-control" step="0.01"
-                value="{{ request.form.price_btc_usd or '' }}">
+                value="{{ request.form.price_btc_usd or '' }}" placeholder="Enter BTC price">
+
+            <label>HYPE/USD Price</label>
+            <input type="number" name="price_hype_usd" class="form-control" step="0.01"
+                value="{{ request.form.price_hype_usd or '' }}" placeholder="Enter HYPE price">
 
             <label>BTC Allocation (%)</label>
             <input type="number" name="allocation_btc" class="form-control" step="0.01" required
-                value="{{ request.form.allocation_btc or 50 }}">
+                value="{{ request.form.allocation_btc or 50 }}" placeholder="Ex: 60">
 
             <label>HYPE Allocation (%)</label>
             <input type="number" name="allocation_hype" class="form-control" step="0.01" required
-                value="{{ request.form.allocation_hype or 50 }}">
+                value="{{ request.form.allocation_hype or 40 }}" placeholder="Ex: 40">
 
-            <button type="submit" class="btn btn-primary mt-4 w-100">Calculate Allocation</button>
+            <button type="submit" class="btn btn-submit w-100">Calculate Allocation</button>
         </form>
 
         {% if result %}
