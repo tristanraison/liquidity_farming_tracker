@@ -29,11 +29,13 @@ def index():
 
             # Get HYPE/BTC price (from form or CoinGecko)
             try:
-                price_hype_btc = float(request.form['price'])
+
+                price_hype_usd = get_price_usd('hyperliquid')
             except:
                 # Fallback to CoinGecko if price not provided
                 price_hype_usd = get_price_usd('hyperliquid-hype')
-                price_hype_btc = price_hype_usd / price_btc_usd
+
+            price_hype_btc = price_hype_usd / price_btc_usd
 
             # Get allocation splits
             allocation_btc_pct = float(request.form['allocation_btc'])
