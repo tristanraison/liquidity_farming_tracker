@@ -1,38 +1,33 @@
 import math
 
 
-def calculate_token_proportions(price_current, price_min, price_max):
+def calculate_symmetric_allocation(amount_total_usd, price_hype_btc, price_btc_usd):
     """
-    Calculate the proportion of token0 and token1 required in a concentrated liquidity pool
-    based on Uniswap V3 formulas.
+    Allocate 50/50 in USD between BTC and HYPE, given their cross rate and BTC price in USD.
 
     Args:
-        price_current (float): Current price of token1 in terms of token0 (e.g., HYPE/BTC)
-        price_min (float): Lower bound of the tick range
-        price_max (float): Upper bound of the tick range
+        amount_total_usd (float): Total amount in USD to invest
+        price_hype_btc (float): Price of 1 HYPE in BTC
+        price_btc_usd (float): Price of 1 BTC in USD
 
     Returns:
-        tuple: (token0_ratio, token1_ratio) as floats summing to 1
+        dict: Contains USD and quantity allocation for both BTC and HYPE
     """
 
-    sqrtP = math.sqrt(price_current)
-    sqrtA = math.sqrt(price_min)
-    sqrtB = math.sqrt(price_max)
+    amount_per_token_usd = amount_total_usd / 2
 
-    if price_current <= price_min:
-        # Only token0 is required (price is below the active range)
-        return (1.0, 0.0)
-    elif price_current >= price_max:
-        # Only token1 is required (price is above the active range)
-        return (0.0, 1.0)
-    else:
-        # Both tokens are required (price is within range)
-        # We calculate relative liquidity contributions
-        amount0 = (sqrtB - sqrtP) / (sqrtP * sqrtB)
-        amount1 = sqrtP - sqrtA
+    # Token prices in USD
+    price_hype_usd = price_hype_btc * price_btc_usd
 
-        total = amount0 + amount1
-        token0_ratio = amount0 / total
-        token1_ratio = amount1 / total
+    # Quantities to buy
+    btc_quantity = amount_per_token_usd / price_btc_usd
+    hype_quantity = amount_per_token_usd / price_hype_usd
 
-        return (token0_ratio, token1_ratio)
+    return {
+        "btc_usd": round(amount_per_token_usd, 2),
+        "hype_usd": round(amount_per_token_usd, 2),
+        "btc_qty": round(btc_quantity, 8),
+        "hype_qty": round(hype_quantity, 4),
+        "price_btc_usd": round(price_btc_usd, 2),
+        "price_hype_usd": round(price_hype_usd, 6)
+    }

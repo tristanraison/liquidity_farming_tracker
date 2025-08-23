@@ -7,21 +7,18 @@
 
 <body>
     <h1>Liquidity Farming Tracker</h1>
-<form method="POST">
-    <label>Montant à investir ($):</label>
-    <input type="number" name="amount" step="0.01" required value="10000"><br><br>
+    <form method="POST">
+        <label>Montant à investir ($):</label>
+        <input type="number" name="amount" step="0.01" required value="10000"><br><br>
 
-    <label>Prix HYPE/BTC:</label>
-    <input type="number" name="price" step="0.0000001" required value="0.0001"><br><br>
+        <label>Prix HYPE/BTC:</label>
+        <input type="number" name="price" step="0.0000001" required value="0.0001"><br><br>
 
-    <label>Tick Range Min:</label>
-    <input type="number" name="tick_min" step="0.0000001" required value="0.00008"><br><br>
+        <label>Prix BTC/USD:</label>
+        <input type="number" name="price_btc_usd" step="0.01" required value="30000"><br><br>
 
-    <label>Tick Range Max:</label>
-    <input type="number" name="tick_max" step="0.0000001" required value="0.00012"><br><br>
-
-    <button type="submit">Calculer</button>
-</form>
+        <button type="submit">Calculer</button>
+    </form>
 
 
     {% if result %}
@@ -30,13 +27,14 @@
     {% else %}
     <h2>Result</h2>
     <ul>
-        <li>Token0 (BTC) ratio: {{ result.token0_ratio }}%</li>
-        <li>Token1 (HYPE) ratio: {{ result.token1_ratio }}%</li>
-        <li>Token0 (BTC) amount: ${{ result.token0_amount }}</li>
-        <li>Token1 (HYPE) amount: ${{ result.token1_amount }}</li>
+        <li>BTC Price (USD): {{ result.price_btc_usd }}</li>
+        <li>HYPE Price (USD): {{ result.price_hype_usd }}</li>
+        <li>BTC allocation: ${{ result.btc_usd }} → {{ result.btc_qty }} BTC</li>
+        <li>HYPE allocation: ${{ result.hype_usd }} → {{ result.hype_qty }} HYPE</li>
     </ul>
     {% endif %}
     {% endif %}
+
 
 </body>
 
