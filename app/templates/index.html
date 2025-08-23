@@ -9,22 +9,26 @@
     <h1>Liquidity Farming Tracker</h1>
     <form method="POST">
         <label>Montant à investir ($):</label>
-        <input type="number" name="amount" step="0.01" required value="10000"><br><br>
-
+        <input type="number" name="amount" step="0.01" required value="{{ request.form.amount or 10000 }}"><br><br>
+    
         <label>Prix HYPE/BTC:</label>
-        <input type="number" name="price" step="0.0000001" required value="0.0001"><br><br>
-
+        <input type="number" name="price" step="0.0000001" required value="{{ request.form.price or 0.0001 }}"><br><br>
+    
         <label>Prix BTC/USD:</label>
-        <input type="number" name="price_btc_usd" step="0.01" required value="30000"><br><br>
-
+        <input type="number" name="price_btc_usd" step="0.01" required
+            value="{{ request.form.price_btc_usd or 30000 }}"><br><br>
+    
         <label>Répartition BTC (%):</label>
-        <input type="number" name="allocation_btc" step="0.01" required value="50"><br><br>
-
+        <input type="number" name="allocation_btc" step="0.01" required
+            value="{{ request.form.allocation_btc or 50 }}"><br><br>
+    
         <label>Répartition HYPE (%):</label>
-        <input type="number" name="allocation_hype" step="0.01" required value="50"><br><br>
-
+        <input type="number" name="allocation_hype" step="0.01" required
+            value="{{ request.form.allocation_hype or 50 }}"><br><br>
+    
         <button type="submit">Calculer</button>
     </form>
+
 
     {% if result %}
     {% if result.error %}
