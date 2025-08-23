@@ -17,23 +17,30 @@
         <label>Prix BTC/USD:</label>
         <input type="number" name="price_btc_usd" step="0.01" required value="30000"><br><br>
 
+        <label>Répartition BTC (%):</label>
+        <input type="number" name="allocation_btc" step="0.01" required value="50"><br><br>
+
+        <label>Répartition HYPE (%):</label>
+        <input type="number" name="allocation_hype" step="0.01" required value="50"><br><br>
+
         <button type="submit">Calculer</button>
     </form>
-
 
     {% if result %}
     {% if result.error %}
     <p style="color:red;">Error: {{ result.error }}</p>
     {% else %}
-    <h2>Result</h2>
+    <h2>Résultat</h2>
     <ul>
-        <li>BTC Price (USD): {{ result.price_btc_usd }}</li>
-        <li>HYPE Price (USD): {{ result.price_hype_usd }}</li>
-        <li>BTC allocation: ${{ result.btc_usd }} → {{ result.btc_qty }} BTC</li>
-        <li>HYPE allocation: ${{ result.hype_usd }} → {{ result.hype_qty }} HYPE</li>
+        <li>Prix BTC (USD) : {{ result.price_btc_usd }}</li>
+        <li>Prix HYPE (USD) : {{ result.price_hype_usd }}</li>
+        <li>Répartition choisie : {{ result.btc_pct }}% BTC / {{ result.hype_pct }}% HYPE</li>
+        <li>Allocation BTC : ${{ result.btc_usd }} → {{ result.btc_qty }} BTC</li>
+        <li>Allocation HYPE : ${{ result.hype_usd }} → {{ result.hype_qty }} HYPE</li>
     </ul>
     {% endif %}
     {% endif %}
+
 
 
 </body>
