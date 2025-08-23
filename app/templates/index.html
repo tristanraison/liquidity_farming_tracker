@@ -1,51 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <title>Liquidity Farming Tracker</title>
+    <!-- Bootstrap 5 + dark mode styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin-top: 50px;
+        }
+
+        label {
+            margin-top: 15px;
+        }
+
+        input {
+            background-color: #1e1e1e;
+            color: #fff;
+            border: 1px solid #555;
+        }
+
+        .card {
+            background-color: #1e1e1e;
+            color: #fff;
+            border: 1px solid #444;
+        }
+
+        .btn-primary {
+            background-color: #00bcd4;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0097a7;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Liquidity Farming Tracker</h1>
-    <form method="POST">
-        <label>Montant à investir ($):</label>
-        <input type="number" name="amount" step="0.01" required value="{{ request.form.amount or 10000 }}"><br><br>
-    
-        <label>Prix HYPE/BTC:</label>
-        <input type="number" name="price" step="0.0000001" value="{{ request.form.price or '' }}"><br><br>
+    <div class="container">
+        <h1 class="mb-4 text-center">Liquidity Farming Tracker</h1>
 
-        <label>Prix BTC/USD:</label>
-        <input type="number" name="price_btc_usd" step="0.01" value="{{ request.form.price_btc_usd or '' }}"><br><br>
+        <form method="POST">
+            <label>Amount to invest (USD)</label>
+            <input type="number" name="amount" class="form-control" step="0.01" required
+                value="{{ request.form.amount or 10000 }}">
 
-        <label>Répartition BTC (%):</label>
-        <input type="number" name="allocation_btc" step="0.01" required
-            value="{{ request.form.allocation_btc or 50 }}"><br><br>
-    
-        <label>Répartition HYPE (%):</label>
-        <input type="number" name="allocation_hype" step="0.01" required
-            value="{{ request.form.allocation_hype or 50 }}"><br><br>
-    
-        <button type="submit">Calculer</button>
-    </form>
+            <label>HYPE/BTC Price</label>
+            <input type="number" name="price" class="form-control" step="0.0000001"
+                value="{{ request.form.price or '' }}">
 
+            <label>BTC/USD Price</label>
+            <input type="number" name="price_btc_usd" class="form-control" step="0.01"
+                value="{{ request.form.price_btc_usd or '' }}">
 
-    {% if result %}
-    {% if result.error %}
-    <p style="color:red;">Error: {{ result.error }}</p>
-    {% else %}
-    <h2>Résultat</h2>
-    <ul>
-        <li>Prix BTC (USD) : {{ result.price_btc_usd }}</li>
-        <li>Prix HYPE (USD) : {{ result.price_hype_usd }}</li>
-        <li>Répartition choisie : {{ result.btc_pct }}% BTC / {{ result.hype_pct }}% HYPE</li>
-        <li>Allocation BTC : ${{ result.btc_usd }} → {{ result.btc_qty }} BTC</li>
-        <li>Allocation HYPE : ${{ result.hype_usd }} → {{ result.hype_qty }} HYPE</li>
-    </ul>
-    {% endif %}
-    {% endif %}
+            <label>BTC Allocation (%)</label>
+            <input type="number" name="allocation_btc" class="form-control" step="0.01" required
+                value="{{ request.form.allocation_btc or 50 }}">
 
+            <label>HYPE Allocation (%)</label>
+            <input type="number" name="allocation_hype" class="form-control" step="0.01" required
+                value="{{ request.form.allocation_hype or 50 }}">
 
+            <button type="submit" class="btn btn-primary mt-4 w-100">Calculate Allocation</button>
+        </form>
 
+        {% if result %}
+        <div class="card mt-5 p-4">
+            {% if result.error %}
+            <h4 class="text-danger">Error</h4>
+            <p>{{ result.error }}</p>
+            {% else %}
+            <h4>Allocation Results</h4>
+            <ul class="list-unstyled">
+                <li><strong>BTC Price (USD):</strong> {{ result.price_btc_usd }}</li>
+                <li><strong>HYPE Price (USD):</strong> {{ result.price_hype_usd }}</li>
+                <li><strong>Target Allocation:</strong> {{ result.btc_pct }}% BTC / {{ result.hype_pct }}% HYPE</li>
+                <li><strong>BTC Allocation:</strong> ${{ result.btc_usd }} → {{ result.btc_qty }} BTC</li>
+                <li><strong>HYPE Allocation:</strong> ${{ result.hype_usd }} → {{ result.hype_qty }} HYPE</li>
+            </ul>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
 </body>
 
 </html>
